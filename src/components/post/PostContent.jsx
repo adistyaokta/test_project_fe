@@ -48,7 +48,7 @@ const PostContent = () => {
   return (
     <div className="flex-grow h-screen overflow-y-auto py-12 px-16 ml-72">
       <SearchBox />
-      <div className="grid grid-cols-1 gap-y-6 gap-x-6 sm:grid-cols-4 lg:grid-cols-8 xl:gap-x-8">
+      <div className="grid grid-cols-1 max-h-4/5 lg:h-4/5 gap-y-6 gap-x-6 sm:grid-cols-4 lg:grid-cols-8 xl:gap-x-8">
         {data.map((post) => {
           const postId = post.id || null;
 
