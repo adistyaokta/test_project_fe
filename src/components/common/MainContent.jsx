@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import Pagination from "./Pagination";
 import PostCard from "./PostCard";
 import SearchBox from "./SearchBox";
@@ -8,28 +9,21 @@ const MainContent = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      const storedToken = localStorage.getItem("token");
       try {
-        const storedToken = localStorage.getItem("token");
-  
-        const response = await fetch(
-          `https://devfortest.my.id/post?page=1&limit=8`,
-          {
-            headers: {
-              Authorization: `Bearer ${storedToken}`,
-              "Content-Type": "application/json",
-            },
-          }
-        );
-  
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-  
-        const result = await response.json();
-        console.log("Fetched data:", result.data);
-        setData(result.data);
+        const response = await axios.get(`https://devfortest.my.id/post`, {
+          params: {
+            page: 1,
+            limit: 8,
+          },
+          headers: {
+            Authorization: `Bearer ${storedToken}`,
+            "Content-Type": "application/json",
+          },
+        });
+        setData(response.data.data);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error("Error fetching data:", error.message);
       }
     };
   

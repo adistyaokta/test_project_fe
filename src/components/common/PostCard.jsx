@@ -1,47 +1,77 @@
-import React from "react";
+import React, { useState } from "react";
 import axios from "axios";
 
-const PostCard = ({ post }) => {
-  const { id, caption, image, likes, tags, createdAt, user, liked } = post;
+const PostCard = ({ post, onEdit, onDelete }) => {
+  const {
+    id,
+    caption,
+    image,
+    likes,
+    tags,
+    createdAt,
+    user,
+    liked: initialLiked,
+  } = post;
+  const [liked, setLiked] = useState(initialLiked || false);
+  const [likeCount, setLikeCount] = useState(likes || 0);
 
   const handleLike = async () => {
-    const storedToken = localStorage.getItem('token');
-  
+    const storedToken = localStorage.getItem("token");
+
     try {
-      const response = await axios.put(
-        `https://devfortest.my.id/post/like/${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${storedToken}`,
-            "Content-Type": "application/json",
-          },
+      if (liked) {
+        // If post is already liked, send unlike request
+        const unlikeResponse = await axios.put(
+          `https://devfortest.my.id/post/unlike/${id}`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${storedToken}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        if (unlikeResponse.status === 200) {
+          setLiked(false);
+          setLikeCount(likeCount - 1); // Decrease like count
+          console.log("Post unliked");
         }
-      );
-  
-      if (response.status === 200) {
-        // Assuming you have a state variable to manage likes, update it accordingly
-        // For example, if 'liked' is a state variable:
-        // setLiked(!liked);
-  
-        console.log("Post liked");
+      } else {
+        // If post is not liked, send like request
+        const likeResponse = await axios.put(
+          `https://devfortest.my.id/post/like/${id}`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${storedToken}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        if (likeResponse.status === 200) {
+          setLiked(true);
+          setLikeCount(likeCount + 1); // Increase like count
+          console.log("Post liked");
+        }
       }
     } catch (error) {
       // Handle unauthorized or other errors
-      console.error('Error liking post:', error);
+      console.error("Error liking/unliking post:", error);
     }
   };
-  
 
   return (
     <div className="border rounded-md overflow-hidden">
-      <img
-        src={image}
-        alt="Post"
-        className="w-96 h-auto max-h-96"
-      />
+      <img src={image} alt="Post" className="w-96 h-auto max-h-96" />
       <div className="p-2">
         <div className="flex gap-1 align-middle items-center">
-          <button className="px-2" onClick={handleLike}>
+          <button
+            className="px-2"
+            onClick={handleLike}
+            style={{ color: liked ? "red" : "white" }}
+          >
             <svg
               stroke="currentColor"
               fill="currentColor"
@@ -52,7 +82,8 @@ const PostCard = ({ post }) => {
               xmlns="http://www.w3.org/2000/svg"
             >
               <path
-                fill="none"
+                stroke="black"
+                fill="currentColor"
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth="32"
@@ -69,11 +100,27 @@ const PostCard = ({ post }) => {
         </div>
         <div className="flex gap-2">
           <div className="flex-grow">
-            <h2 className=" text-sm">{caption}</h2>
+            <h2 className="text-sm">{caption}</h2>
           </div>
         </div>
         <p className="text-[#65c3c8] mt-5">{tags}</p>
       </div>
+      {onEdit && onDelete && (
+        <div className="flex flex-col gap-2">
+          <button
+            className="outline-1 outline rounded-full px-2 uppercase text-xs font-semibold hover:bg-violet-950 hover:text-gray-50"
+            onClick={onDelete}
+          >
+            delete
+          </button>
+          <button
+            className="outline-1 outline rounded-full px-2 uppercase text-xs font-semibold hover:bg-violet-950 hover:text-gray-50"
+            onClick={onEdit}
+          >
+            edit
+          </button>
+        </div>
+      )}
     </div>
   );
 };

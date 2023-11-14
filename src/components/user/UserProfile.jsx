@@ -27,9 +27,8 @@ const UserProfile = () => {
         }
 
         const result = await response.json();
-        console.log("Fetched data:", result.data);
         setData(result.data);
-        setEditedData(result.data); // Initialize editedData with the fetched data
+        setEditedData(result.data); 
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -47,7 +46,6 @@ const UserProfile = () => {
   
     try {
       const storedToken = localStorage.getItem("token");
-      console.log("Stored Token:", storedToken);
   
       const formData = new FormData();
       formData.append("file", newFile);

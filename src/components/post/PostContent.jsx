@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import SearchBox from "../common/SearchBox";
-import PostContentCard from "./PostContentCard";
 import { jwtDecode } from "jwt-decode";
 import CreatePostModal from "./CreatePostModal";
+import axios from "axios";
+import PostContentCard from "./PostContentCard";
 
 const PostContent = () => {
   const [data, setData] = useState([]);
@@ -15,14 +16,14 @@ const PostContent = () => {
 
         const decodedToken = jwtDecode(storedToken);
 
-        if (!decodedToken || !decodedToken.sub){
-          throw new Error("unable to decode token")
+        if (!decodedToken || !decodedToken.sub) {
+          throw new Error("Unable to decode token");
         }
 
-        setUserId(decodedToken.sub)
+        setUserId(decodedToken.sub);
 
-        const response = await fetch(
-          `https://devfortest.my.id/post/user/${userId}?page=1&limit=8`,
+        const response = await axios.get(
+          `https://devfortest.my.id/post/user/${decodedToken.sub}?page=1&limit=8`,
           {
             headers: {
               Authorization: `Bearer ${storedToken}`,
@@ -31,19 +32,19 @@ const PostContent = () => {
           }
         );
 
-        if (!response.ok) {
-          throw new Error(`Network response was not ok ${response.status}`);
+        if (!response.status === 200) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
         }
 
-        const result = await response.json();
-        setData(result.data);
+        setData(response.data.data);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error("Error fetching data:", error.message);
       }
     };
 
     fetchData();
   }, [userId]);
+
   return (
     <div className="flex-grow h-screen overflow-y-auto py-12 px-16 ml-72">
       <SearchBox />
@@ -60,9 +61,8 @@ const PostContent = () => {
             </div>
           );
         })}
-        
       </div>
-      <CreatePostModal/>
+      <CreatePostModal />
     </div>
   );
 };

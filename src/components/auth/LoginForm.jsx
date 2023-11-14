@@ -1,8 +1,10 @@
 import React, { useState } from "react";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
 import { useSignIn } from "react-auth-kit";
+import { toast } from 'react-toastify'; 
 import InputField from "./InputField";
+import 'react-toastify/dist/ReactToastify.css'; // Import the styles
 
 const LoginForm = () => {
   const [username, setUsername] = useState("");
@@ -37,12 +39,15 @@ const LoginForm = () => {
           tokenType: "Bearer",
           authState: { username: username}
         });
-        navigate("/user");
+        navigate("/");
+        toast.success('Successfully logged in');
       } else {
+        toast.error(`Login Failed. Please check your credentials. ${response.data.message}`);
         console.error("Login Failed:", response.data);
       }
     } catch (error) {
-      console.error("Error login", error.message);
+      toast.error("Error logging in. Please try again later.");
+      console.log("Error login", AxiosError);
     }
   };
 
