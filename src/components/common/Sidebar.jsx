@@ -16,7 +16,7 @@ const Sidebar = () => {
   };
 
   return (
-    <aside className="absolute top-0 left-0 bottom-0 z-20 w-60 bg-secondary overflow-y-auto transition-all duration-300 ease-in-out">
+    <aside className="absolute top-0 left-0 bottom-0 z-20  hidden md:block md:w-60 bg-secondary overflow-y-auto transition-all duration-300 ease-in-out">
       <div className="sidebar-content px-4 py-2 h-full flex flex-col justify-between">
         <ul className="menu flex flex-col gap-5 w-full">
           <li className={`my-px rounded-lg ${location.pathname === '/' ? 'bg-primary' : 'hover:bg-[#d7d2d0]'}`}>

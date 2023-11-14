@@ -65,8 +65,8 @@ const PostCard = ({ post, onEdit, onDelete }) => {
   return (
     <div className="border rounded-md overflow-hidden">
       <img src={image} alt="Post" className="w-96 h-auto max-h-96" />
-      <div className="p-2">
-        <div className="flex gap-1 align-middle items-center">
+      <div className="p-2 flex flex-col">
+        <div className="flex flex-row items-center gap-2">
           <button
             className="px-2"
             onClick={handleLike}
@@ -91,36 +91,36 @@ const PostCard = ({ post, onEdit, onDelete }) => {
               ></path>
             </svg>
           </button>
-          <span className="text-xs">{likes || 0}</span>
+          <span className="text-xs">{likeCount}</span>
         </div>
         <div className="flex gap-2">
           <div className="flex-grow">
             <h2 className="font-semibold text-sm">{user.name}</h2>
           </div>
+          {onEdit && onDelete && (
+            <div className="flex flex-col gap-2">
+              <button
+                className="outline-1 outline rounded-full px-2 uppercase text-xs font-semibold hover:bg-violet-950 hover:text-gray-50"
+                onClick={onDelete}
+              >
+                delete
+              </button>
+              <button
+                className="outline-1 outline rounded-full px-2 uppercase text-xs font-semibold hover:bg-violet-950 hover:text-gray-50"
+                onClick={onEdit}
+              >
+                edit
+              </button>
+            </div>
+          )}
         </div>
         <div className="flex gap-2">
           <div className="flex-grow">
             <h2 className="text-sm">{caption}</h2>
           </div>
         </div>
-        <p className="text-[#65c3c8] mt-5">{tags}</p>
+        <p className="text-[#65c3c8] mt-2">{tags}</p>
       </div>
-      {onEdit && onDelete && (
-        <div className="flex flex-col gap-2">
-          <button
-            className="outline-1 outline rounded-full px-2 uppercase text-xs font-semibold hover:bg-violet-950 hover:text-gray-50"
-            onClick={onDelete}
-          >
-            delete
-          </button>
-          <button
-            className="outline-1 outline rounded-full px-2 uppercase text-xs font-semibold hover:bg-violet-950 hover:text-gray-50"
-            onClick={onEdit}
-          >
-            edit
-          </button>
-        </div>
-      )}
     </div>
   );
 };

@@ -62,11 +62,8 @@ const UserProfile = () => {
       );
   
       console.log("File Upload Response:", response.data);
-  
-      // Assuming that the response has a valid URL in response.data.data.link
       const newPhotoUrl = response.data.data.link;
-  
-      // Update the editedData with the new photo URL
+
       setEditedData((prevData) => ({ ...prevData, photo: newPhotoUrl }));
     } catch (error) {
       console.error("Error uploading file:", error);
@@ -75,7 +72,6 @@ const UserProfile = () => {
   
 
   const handleInputChange = (e) => {
-    // Update the editedData with the changed input value
     const { name, value } = e.target;
     setEditedData((prevData) => ({ ...prevData, [name]: value }));
   };
@@ -86,7 +82,6 @@ const UserProfile = () => {
     try {
       const storedToken = localStorage.getItem("token");
 
-      // Make a PUT request to update the data
       const response = await axios.put(
         "https://devfortest.my.id/user",
         editedData,
@@ -99,9 +94,8 @@ const UserProfile = () => {
       );
 
       console.log("PUT Request Response:", response.data);
-      // Optionally, you can update the state with the new data received from the server
       setData(response.data);
-      setDisabled(true); // Disable the form after submitting
+      setDisabled(true);
     } catch (error) {
       console.error("Error updating data:", error);
     }
@@ -109,10 +103,9 @@ const UserProfile = () => {
 
   return (
     <section className="bg-white h-screen flex flex-grow items-center justify-center px-5 py-4">
-      <div className="w-full rounded-lg sm:max-w-lg">
+      <div className="w-full rounded-lg md:max-w-lg md:w-full">
         <div className="p-6 space-y-4 md:space-y-6">
-          <form className="w-full max-w-lg" onSubmit={handleSubmit}>
-            {/* ... other form fields ... */}
+          <form className="sm:ml-32 w-full max-w-lg lg:ml-0" onSubmit={handleSubmit}>
             <div className="w-full">
               <label className="label"></label>
               <InputField
@@ -154,7 +147,6 @@ const UserProfile = () => {
             </div>
             <div>
               <div className="flex rounded-full">
-                {/* ... other input code ... */}
                 <input
                   type="text"
                   accept="image/*"
@@ -180,7 +172,7 @@ const UserProfile = () => {
                   }`}
                   onClick={() => {
                     fileInputRef.current.click();
-                    setDisabled(true); // Disable the "Browse" button when clicked
+                    setDisabled(true); 
                   }}
                   disabled={isDisabled}
                 >
