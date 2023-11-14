@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useSignIn } from "react-auth-kit";
 import { toast } from 'react-toastify'; 
 import InputField from "./InputField";
-import 'react-toastify/dist/ReactToastify.css'; // Import the styles
+import 'react-toastify/dist/ReactToastify.css';
 
 const LoginForm = () => {
   const [username, setUsername] = useState("");
