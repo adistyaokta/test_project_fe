@@ -57,8 +57,8 @@ const MainContent = () => {
           <div className="h-full w-full relative px-4 py-4">
             <SearchBox />
 
-            <div className="flex-grow h-[29rem] overflow-y-auto pr-4 ">
-              <div className="grid grid-cols-8 gap-4">
+            <div className="flex-grow h-4/5 overflow-y-auto pr-4">
+              <div className="grid grid-cols-1 md:grid-cols-6 lg:grid-cols-8 gap-4">
                 {data.map((post) => (
                   <div key={post.id} className="col-span-6 md:col-span-3 lg:col-span-2 xl:col-span-2">
                     <PostCard post={post} />

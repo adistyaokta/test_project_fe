@@ -52,7 +52,7 @@ const ChangePasswordForm = () => {
 
   return (
     <div className="main-content px-4 p4-6 md:px-12 md:py-12 h-full">
-      <div className="flex justify-center h-full overflow-y-auto">
+      <div className="flex ml-60 lg:ml-0 justify-center h-full overflow-y-auto">
         <form className="w-full max-w-lg" onSubmit={handleFormSubmit}>
         <div className="flex flex-row items-center justify-center lg:justify-start mb-2">
             <p className="text-xl text-center w-full text-black py-2">
